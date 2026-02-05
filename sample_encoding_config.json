@@ -1,0 +1,14 @@
+{
+  "video_paths": [
+    "./data/videos_test"
+  ],
+  "output_dir": "./data/runs/2026-02-04",
+  "video_encoder_enabled": false,
+  "video_encoder_fps": 0.1,
+  "video_encoder_model": "mlx-community/Qwen2-VL-7B-Instruct-4bit",
+  "frame_encoder_enabled": true,
+  "frame_encoder_model": "siglip",
+  "frame_encoder_fps": 1,
+  "frame_encoder_record_frames": false,
+  "logging_level": "INFO"
+}
