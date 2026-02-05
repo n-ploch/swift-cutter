@@ -1,16 +1,19 @@
 # SwiftCutter - AI-Powered Video Editing Pipeline
 
-SwiftCutter is an intelligent video editing pipeline that uses AI models to automatically create compelling stories from raw footage. It combines vision-language models, frame embeddings, and creative agents to generate ready-to-edit timelines in OpenTimelineIO (OTIO) format.
+SwiftCutter is an intelligent video editing pipeline that uses AI models to automatically create video edits from raw footage. It combines vision-language models, frame embeddings, and creative agents to generate ready-to-edit timelines in OpenTimelineIO (OTIO) format.
+
+As a DJI fan that loves to film great landscapes and scenes, I started with video editing and quickly noticed that elaborating a storyline and ultimately an edited video from existing footage could be a good task to use new AI tools for. This is how SwiftCutter was born. 
+
+This tool does not fall into the line of AI-enhanced video editing and generation (b-roll creation, subtitle generation, visual enhancement, etc), but is rather aimed at users that want to enjoy their own videos put together in a nice story :) 
 
 ## Highlights
 
-- **AI-Powered Storytelling**: Uses advanced AI models to understand video content and generate creative narratives
+- **AI-Powered Storytelling**: Uses AI models to understand video content and generate creative narratives
 - **Dual-Agent Architecture**: Screenwriter and Editor agents collaborate to create balanced, engaging stories
-- **Industry Standard Output**: Generates OTIO timelines compatible with DaVinci Resolve, Premiere Pro, and Final Cut Pro
-- **Fast Iteration**: Separate encoding and creative pipelines for rapid experimentation
-- **Observability**: Built-in Langfuse integration for monitoring and debugging
-- **Local Encoding**: All video and frame encoding happens locally
-- **Local Timeline Generation**: All timeline generation happens locally
+- **Standard Output**: Generates OTIO timelines compatible with DaVinci Resolve, Premiere, and Final Cut
+- **Observability**: Built-in Langfuse integration for agent monitoring
+- **Optimized Local Frame Encoding**: Encode 120GB of 4K60FPS footage at 1FPS in less than 30 min on M1 Pro
+- **Local Timeline Generation**: The timeline generation logic works fully locally
 - **Optimized for Apple Silicon**: Uses Apple's Metal Performance Shaders for fast inference
 
 ## Architecture
@@ -46,12 +49,17 @@ This separation allows you to:
     - **Windows**: Download from the link above and add to PATH
 - **Sufficient disk space** for video files and encodings (several GB recommended)
 
-git clone <repository-url>
-cd SwiftCutter
+### Setup
+1. Clone the repository
+```
+git clone git@github.com:n-ploch/swift-cutter.git
+cd swift-cutter
 ```
 
 2. Create and activate a virtual environment:
-source .autoedit/bin/activate  # On macOS/Linux
+```
+python -m venv .my_venv
+source .my_venv/bin/activate  # On macOS/Linux
 ```
 
 3. Install dependencies:
@@ -63,13 +71,13 @@ pip install -r requirements.txt
 
 Create a `.env` file in the project root:
 ```bash
-# For Gemini API (recommended)
+# For Gemini API (recommended, support for further models has not been thoroughly tested yet)
 GOOGLE_API_KEY=your_gemini_api_key_here
 
 # Optional: Langfuse for observability
 LANGFUSE_PUBLIC_KEY=your_public_key
 LANGFUSE_SECRET_KEY=your_secret_key
-LANGFUSE_HOST=https://cloud.langfuse.com
+LANGFUSE_HOST=https://your-langfuse-deployment.com
 ```
 
 ## Quick Start
@@ -80,12 +88,13 @@ See `sample_encoding_config.json` for encoding config and `sample_pipeline_confi
 
 ### 2. Generate Encodings (One Time)
 
-Edit `sample_encoding_config.json` with your video paths and run:
+Edit `sample_encoding_config.json` with your video paths and preferences and run:
 
 ```bash
 python -m src.autoedit_cli run-video-encoding --config sample_encoding_config.json
 python -m src.autoedit_cli run-frame-encoding --config sample_encoding_config.json
 ```
+This will take a while to complete depending on video data you have.
 
 ### 3. Run Creative Pipeline (Fast Iteration)
 
@@ -300,13 +309,11 @@ data/runs/my-project/
 
 ```
 data/runs/my-project-epic/
-├── story.json                    # Generated storyline
+├── story.json                   # Generated storyline
 ├── storyboard.json              # Scene breakdown with search queries
 ├── timeline_json.json           # Matched video frames to story beats
 ├── timeline_otio.otio           # OpenTimelineIO export (import to editors)
-├── video_encoding.json          # Copied from encodings
-├── frame_encodings.npy          # Copied from encodings
-├── frame_encodings_metadata.json
+├── autoedit_config.json         # Autoedit Pipeline Configuration
 └── run_manifest.json            # Run metadata and config
 ```
 
@@ -351,9 +358,8 @@ python -m src.autoedit_cli show-run ./data/runs/vacation-epic
 ### Workflow 2: Config-Based Workflow
 
 ```bash
-# 1. Generate sample configs
-python -m src.autoedit_cli create-sample-encoding-config
-python -m src.autoedit_cli create-sample-pipeline-config
+# 1. Create your configs
+# Copypaste sample_encoding_config.json and sample_pipeline_config.json
 
 # 2. Edit configs with your settings
 # Edit sample_encoding_config.json
@@ -401,23 +407,6 @@ python -m src.autoedit_cli run --config config.json --log-level WARNING
 Output:
 - Warning messages
 - Errors
-
-## Advanced Usage
-
-### Using Explicit Encoding Paths
-
-Instead of `--encodings-dir`, you can specify exact paths:
-
-```bash
-python -m src.autoedit_cli run \
-  --videos ./footage/*.mp4 \
-  --prompt "Your creative vision" \
-  --video-encoding ./custom/path/video_encoding.json \
-  --frame-encodings ./custom/path/frame_encodings.npy \
-  --frame-metadata ./custom/path/frame_encodings_metadata.json \
-  --run-id custom-paths-run
-```
-
 
 ## Troubleshooting
 
@@ -470,14 +459,14 @@ For large videos:
 
 The pipeline generates `.otio` files compatible with:
 - **DaVinci Resolve** (native support via Import>Timeline)
-- **Adobe Premiere Pro**
-- **Final Cut Pro**
-- **Kdenlive**
+- **Adobe Premiere**
+- **Final Cut**
 
 To use in your editor:
 1. Review how to import OTIO timelines in your editor
 2. Import the `timeline_otio.otio` file from your run directory
 3. Edit and refine as needed
+4. Have fun watching your video!
 
 ## Contributing
 
