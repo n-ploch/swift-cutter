@@ -3,8 +3,8 @@
   "user_prompt": "Create a video capturing the best moments of our mountain adventure. Start with our forest hikes. Follow up with some great aerial mountain views. Close with nice lake views.",
   "encoding_manifest_path": "./data/encodings/encoding_manifest.json",
   "video_encoding_path": "./data/encodings/video_encoding.json",
-  "frame_encodings_path": "./data/encodings/frame_embeddings.npy",
-  "frame_encodings_metadata_path": "./data/encodings/frame_metadata.json",
+  "frame_encodings_path": "./data/encodings/frame_encodings.npy",
+  "frame_encodings_metadata_path": "./data/encodings/frame_encodings_metadata.json",
   "runtime": {
     "output_base_dir": "./data/runs",
     "run_id": "test",
@@ -16,12 +16,12 @@
     "enabled": true,
     "screenwriter": {
       "provider": "gemini",
-      "model": "gemini-3-flash-preview",
+      "model": "gemini-2.5-flash",
       "temperature": 0.3
     },
     "editor": {
       "provider": "gemini",
-      "model": "gemini-3-flash-preview",
+      "model": "gemini-2.5-flash",
       "temperature": 0.2,
       "queries_per_scene": 4
     },
