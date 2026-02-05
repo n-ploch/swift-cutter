@@ -199,7 +199,7 @@ class EncodingPipeline:
         self.logger.info(f"[1/2] Video Encoder (Qwen2-VL)")
         self.logger.info("-" * 80)
 
-        from video_encoder import VideoProcessor
+        from .video_encoder import VideoProcessor
 
         processor = VideoProcessor(
             model_path=self.config.video_encoder_model,
@@ -212,11 +212,13 @@ class EncodingPipeline:
         if system_prompt is None:
             system_prompt = "You are an expert cinematic analyst. Describe the video content in detail."
 
-        results = processor.process_video_qwen_sequence(
+        results = processor.process_video_as_sequence(
             video_list=self.video_files,
             output_json=output_path,
             fps=self.config.video_encoder_fps,
-            system_prompt=system_prompt
+            system_prompt=system_prompt,
+            store_frame=self.config.frame_encoder_record_frames,
+            store_image_path=os.path.join(self.config.output_dir, "test_frames")
         )
 
         self.results['video_encoding'] = {
@@ -230,7 +232,7 @@ class EncodingPipeline:
         self.logger.info(f"[2/2] Frame Encoder ({self.config.frame_encoder_model.upper()})")
         self.logger.info("-" * 80)
 
-        from frame_encoder import FrameIndexer
+        from .frame_encoder import FrameIndexer
 
         indexer = FrameIndexer(
             model_type=self.config.frame_encoder_model,

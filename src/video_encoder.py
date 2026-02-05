@@ -251,7 +251,7 @@ class VideoProcessor:
             json.dump(results_data, f, indent=4)
         logger.info(f"\nSaved {len(results_data)} descriptions to {output_json}")
 
-    def process_video_as_sequence(self, video_list, output_json=None, fps=0.5, num_frames=5, store_frame=True, store_image_path="data/test_frames", system_prompt="You are a video analysis assistant."):
+    def process_video_as_sequence(self, video_list, output_json=None, fps=0.5, num_frames=5, store_frame=False, store_image_path="data/test_frames", system_prompt="You are a video analysis assistant."):
         """
         Process videos as frame sequences for temporal understanding.
 
