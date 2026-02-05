@@ -1,4 +1,4 @@
-from frame_encoder import VisionModelWrapper
+from .frame_encoder import VisionModelWrapper
 import json
 import logging
 from typing import List, Dict

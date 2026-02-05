@@ -14,9 +14,9 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_ollama import ChatOllama
 from langfuse.langchain import CallbackHandler
 
-from config import EditorConfig, RuntimeConfig
-from models import VideoSummary, Storyline, Storyboard
-from tracing import trace
+from .config import EditorConfig, RuntimeConfig
+from .models import VideoSummary, Storyline, Storyboard
+from .tracing import trace
 
 
 class EditorAgent:

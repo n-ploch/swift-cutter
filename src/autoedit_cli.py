@@ -17,8 +17,8 @@ try:
 except ImportError:
     pass  # python-dotenv not installed, rely on system environment variables
 
-from autoedit_pipeline import AutoEditPipeline, PipelineConfig
-from encoding_pipeline import EncodingPipeline, EncodingConfig
+from .autoedit_pipeline import AutoEditPipeline, PipelineConfig
+from .encoding_pipeline import EncodingPipeline, EncodingConfig
 
 logger = logging.getLogger('autoedit_cli')
 

@@ -13,9 +13,9 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_ollama import ChatOllama
 from langfuse.langchain import CallbackHandler
 
-from config import ScreenwriterConfig, RuntimeConfig
-from models import VideoSummary, Storyline
-from tracing import trace
+from .config import ScreenwriterConfig, RuntimeConfig
+from .models import VideoSummary, Storyline
+from .tracing import trace
 
 
 class ScreenwriterAgent:

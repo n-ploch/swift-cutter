@@ -12,7 +12,7 @@ import logging
 from typing import List, Optional, Dict, Any
 from datetime import datetime
 
-from config import PipelineConfig
+from .config import PipelineConfig
 
 
 class AutoEditPipeline:
@@ -181,7 +181,7 @@ class AutoEditPipeline:
         self.logger.info(f"[1/3] Story Pipeline (Screenwriter + Editor)")
         self.logger.info("-" * 80)
 
-        from story_pipeline import StoryPipeline
+        from .story_pipeline import StoryPipeline
 
         video_summaries_path = self.results['video_encoding']['path']
 
@@ -208,7 +208,7 @@ class AutoEditPipeline:
         self.logger.info(f"[2/3] Timeline Generator")
         self.logger.info("-" * 80)
 
-        from timeline_generator import TimelineGenerator
+        from .timeline_generator import TimelineGenerator
 
         encoding_model = self.results['frame_encoding']['frame_encoder_model']
 
@@ -240,7 +240,7 @@ class AutoEditPipeline:
         self.logger.info(f"[3/3] OTIO Parser")
         self.logger.info("-" * 80)
 
-        from otio_parser import OtioTimeline
+        from .otio_parser import OtioTimeline
 
         parser = OtioTimeline(logging_level=self.config.runtime.logging_level)
         timeline_path = self.results['timeline']['timeline_path']
