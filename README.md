@@ -1,6 +1,17 @@
-# AIotio - AI-Powered Video Editing Pipeline
+# SwiftCutter - AI-Powered Video Editing Pipeline
 
-AIotio is an intelligent video editing pipeline that uses AI models to automatically create compelling stories from raw footage. It combines vision-language models, frame embeddings, and creative agents to generate ready-to-edit timelines in OpenTimelineIO (OTIO) format.
+SwiftCutter is an intelligent video editing pipeline that uses AI models to automatically create compelling stories from raw footage. It combines vision-language models, frame embeddings, and creative agents to generate ready-to-edit timelines in OpenTimelineIO (OTIO) format.
+
+## Highlights
+
+- **AI-Powered Storytelling**: Uses advanced AI models to understand video content and generate creative narratives
+- **Dual-Agent Architecture**: Screenwriter and Editor agents collaborate to create balanced, engaging stories
+- **Industry Standard Output**: Generates OTIO timelines compatible with DaVinci Resolve, Premiere Pro, and Final Cut Pro
+- **Fast Iteration**: Separate encoding and creative pipelines for rapid experimentation
+- **Observability**: Built-in Langfuse integration for monitoring and debugging
+- **Local Encoding**: All video and frame encoding happens locally
+- **Local Timeline Generation**: All timeline generation happens locally
+- **Optimized for Apple Silicon**: Uses Apple's Metal Performance Shaders for fast inference
 
 ## Architecture
 
@@ -35,20 +46,12 @@ This separation allows you to:
     - **Windows**: Download from the link above and add to PATH
 - **Sufficient disk space** for video files and encodings (several GB recommended)
 
-### Setup
-
-1. Clone the repository:
-```bash
 git clone <repository-url>
-cd AIotio
+cd SwiftCutter
 ```
 
 2. Create and activate a virtual environment:
-```bash
-python -m venv .autoedit
 source .autoedit/bin/activate  # On macOS/Linux
-# or
-.autoedit\Scripts\activate  # On Windows
 ```
 
 3. Install dependencies:
@@ -71,34 +74,14 @@ LANGFUSE_HOST=https://cloud.langfuse.com
 
 ## Quick Start
 
-### 1. Generate Sample Configs
+### 1. Create Configs
 
-```bash
-# Create sample encoding config
-python -m src.autoedit_cli create-sample-encoding-config
-
-# Create sample pipeline config
-python -m src.autoedit_cli create-sample-pipeline-config
-```
+See `sample_encoding_config.json` for encoding config and `sample_pipeline_config.json` for pipeline config.
 
 ### 2. Generate Encodings (One Time)
 
 Edit `sample_encoding_config.json` with your video paths and run:
 
-```bash
-# Generate video descriptions
-python -m src.autoedit_cli run-video-encoding \
-  --videos ./data/*.mp4 \
-  --output-dir ./data/runs/my-project
-
-# Generate frame embeddings
-python -m src.autoedit_cli run-frame-encoding \
-  --videos ./data/*.mp4 \
-  --output-dir ./data/runs/my-project \
-  --model siglip
-```
-
-Or use the config file:
 ```bash
 python -m src.autoedit_cli run-video-encoding --config sample_encoding_config.json
 python -m src.autoedit_cli run-frame-encoding --config sample_encoding_config.json
@@ -108,10 +91,7 @@ python -m src.autoedit_cli run-frame-encoding --config sample_encoding_config.js
 
 ```bash
 python -m src.autoedit_cli run \
-  --videos ./data/*.mp4 \
-  --prompt "Create an epic adventure video showcasing mountain landscapes" \
-  --encodings-dir ./data/runs/my-project \
-  --run-id my-project-epic
+  --config sample_pipeline_config.json
 ```
 
 ### 4. Try Different Creative Directions
@@ -136,18 +116,30 @@ python -m src.autoedit_cli run \
 
 ## CLI Reference
 
+### Running the CLI
+
+The CLI can be run as a Python module in two ways:
+
+```bash
+# Full module path
+python -m src.autoedit_cli --help
+
+# Shorter version
+python -m src --help
+```
+
+Both commands are equivalent. Use whichever you prefer.
+
 ### Commands Overview
 
 ```bash
-python -m src.autoedit_cli --help
+python -m src --help
 ```
 
 Available commands:
 - `run` - Run the creative pipeline (story, timeline, OTIO)
 - `run-video-encoding` - Run video encoding only
 - `run-frame-encoding` - Run frame encoding only
-- `create-sample-encoding-config` - Generate sample encoding config
-- `create-sample-pipeline-config` - Generate sample pipeline config
 - `list-runs` - List all pipeline runs
 - `show-run` - Show details of a specific run
 
@@ -426,48 +418,6 @@ python -m src.autoedit_cli run \
   --run-id custom-paths-run
 ```
 
-### Skipping Pipeline Stages
-
-Skip specific stages for debugging or partial runs:
-
-```bash
-# Only generate story, skip timeline and OTIO
-python -m src.autoedit_cli run \
-  --videos ./footage/*.mp4 \
-  --prompt "Story test" \
-  --encodings-dir ./data/runs/project \
-  --skip-timeline \
-  --skip-otio \
-  --run-id story-only
-
-# Skip story, only generate timeline and OTIO
-python -m src.autoedit_cli run \
-  --videos ./footage/*.mp4 \
-  --prompt "Timeline test" \
-  --encodings-dir ./data/runs/project \
-  --skip-story \
-  --run-id timeline-only
-```
-
-### Custom Story Models
-
-Use different LLM models for story generation:
-
-```bash
-# Use a different Gemini model
-python -m src.autoedit_cli run \
-  --videos ./footage/*.mp4 \
-  --prompt "Your vision" \
-  --encodings-dir ./data/runs/project \
-  --story-model gemini-1.5-pro
-
-# Use local model (requires setup)
-python -m src.autoedit_cli run \
-  --videos ./footage/*.mp4 \
-  --prompt "Your vision" \
-  --encodings-dir ./data/runs/project \
-  --story-provider local
-```
 
 ## Troubleshooting
 
@@ -519,16 +469,15 @@ For large videos:
 ## Importing to Video Editors
 
 The pipeline generates `.otio` files compatible with:
-- **DaVinci Resolve** (via OTIO plugin)
-- **Adobe Premiere Pro** (via OTIO plugin)
-- **Final Cut Pro** (via OTIO conversion)
-- **Kdenlive** (native OTIO support)
+- **DaVinci Resolve** (native support via Import>Timeline)
+- **Adobe Premiere Pro**
+- **Final Cut Pro**
+- **Kdenlive**
 
 To use in your editor:
-1. Install the OTIO plugin for your editor
+1. Review how to import OTIO timelines in your editor
 2. Import the `timeline_otio.otio` file from your run directory
-3. Relink media to your original video files
-4. Edit and refine as needed
+3. Edit and refine as needed
 
 ## Contributing
 
@@ -536,11 +485,11 @@ Contributions are welcome! Please submit issues and pull requests to the reposit
 
 ## License
 
-[Your license information here]
+This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
 - **Qwen2-VL** for video understanding
 - **SigLIP/CLIP** for frame embeddings
-- **Gemini** for creative story generation
+- **Gemini** for creative story generation (as of now)
 - **OpenTimelineIO** for timeline interchange format
