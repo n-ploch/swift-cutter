@@ -297,7 +297,7 @@ class FrameIndexer:
             np.save(output_filename, final_matrix)
 
             # Save Metadata JSON
-            json_filename = os.path.splitext(output_filename)[0] + ".json"
+            json_filename = os.path.splitext(output_filename)[0] + "_metadata.json"
             with open(json_filename, 'w') as f:
                 json.dump({"metadata": metadata}, f, indent=2)
 
