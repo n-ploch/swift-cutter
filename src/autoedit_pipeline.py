@@ -140,6 +140,7 @@ class AutoEditPipeline:
                 self._run_otio_parser()
 
             # 5. Save run manifest
+            self.config.to_json(os.path.join(self.run_dir, 'autoedit_config.json'))
             self._save_run_manifest(status='success')
 
             elapsed = time.time() - self.start_time

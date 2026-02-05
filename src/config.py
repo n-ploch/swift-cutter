@@ -4,8 +4,9 @@ Unified configuration for the AI video autoedit pipeline.
 Nested structure separates runtime config from stage-specific and agent-specific configs.
 Inspired by LangGraph's configuration pattern.
 """
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 from typing import List, Optional
+import json
 
 
 # ============================================================================
@@ -226,3 +227,8 @@ class PipelineConfig:
             timeline=TimelineConfig(**timeline_data),
             otio=OtioConfig(**otio_data)
         )
+
+    def to_json(self, path: str):
+        """Save config to JSON file."""
+        with open(path, 'w') as f:
+            json.dump(asdict(self), f, indent=2)
