@@ -1,8 +1,8 @@
-# SwiftCutter - AI-Powered Video Editing Pipeline
+# Agentic Video Cutter - AI-Powered Video Editing Pipeline
 
-SwiftCutter is an intelligent video editing pipeline that uses AI models to automatically create video edits from raw footage. It combines vision-language models, frame embeddings, and creative agents to generate ready-to-edit timelines in OpenTimelineIO (OTIO) format.
+Agentic Video Cutter is an intelligent video editing pipeline that uses AI models to automatically create video edits from raw footage. It combines vision-language models, frame embeddings, and creative agents to generate ready-to-edit timelines in OpenTimelineIO (OTIO) format.
 
-As a DJI fan that loves to film great landscapes and scenes, I started with video editing and quickly noticed that elaborating a storyline and ultimately an edited video from existing footage could be a good task to use new AI tools for. This is how SwiftCutter was born. 
+As a DJI fan that loves to film great landscapes and scenes, I started with video editing and quickly noticed that elaborating a storyline and ultimately an edited video from existing footage could be a good task to use new AI tools for. This is how Agentic Video Cutter was born. 
 
 This tool does not fall into the line of AI-enhanced video editing and generation (b-roll creation, subtitle generation, visual enhancement, etc), but is rather aimed at users that want to enjoy their own videos put together in a nice story :) 
 
